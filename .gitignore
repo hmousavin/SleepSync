@@ -10,6 +10,8 @@ client/.env*
 client/npm-debug.log*
 client/yarn.lock
 client/package-lock.json
+client/playwright-report
+client/test-results
 
 # Rust (Server)
 server/target/
