@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";  // Import Outlet
+import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "../providers/theme-provider";
 import { ThemeToggle } from   "../components/theme-toggle";
 import { MobileFrame } from "../components/mobile-frame";
