@@ -1,0 +1,34 @@
+# General
+.DS_Store
+Thumbs.db
+
+# Node.js (Client)
+client/node_modules/
+client/dist/
+client/.vite/
+client/.env*
+client/npm-debug.log*
+client/yarn.lock
+client/package-lock.json
+
+# Rust (Server)
+server/target/
+server/Cargo.lock
+server/Cargo.toml.orig
+server/.env*
+
+# Logs
+*.log
+logs/
+client/logs/
+server/logs/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+docker/db-data/
