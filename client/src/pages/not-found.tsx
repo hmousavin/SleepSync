@@ -1,7 +1,5 @@
-"use client"
-
 export default function NotFound() {
     return (
-        <>Not Found :(</>
+        <>Not Found !</>
     )
 }

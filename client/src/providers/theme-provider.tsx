@@ -1,5 +1,3 @@
-"use client"
-
 import { createContext, useContext, useEffect, useState } from "react"
 import type React from "react" // Added import for React
 
@@ -39,4 +37,3 @@ export const useTheme = () => {
   if (context === undefined) throw new Error("useTheme must be used within a ThemeProvider")
   return context
 }
-

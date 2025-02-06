@@ -6,14 +6,12 @@ import { BottomNav } from "../components/layout/bottom-nav";
 
 export default function RootLayout() {
   return (
-    <div className="font-sans">
-      <ThemeProvider>
-        <MobileFrame>
-          <Outlet />
-          <BottomNav />
-        </MobileFrame>
-        <ThemeToggle />
-      </ThemeProvider>
-    </div>
+    <ThemeProvider>
+      <MobileFrame>
+        <Outlet />
+        <BottomNav />
+      </MobileFrame>
+      <ThemeToggle />
+    </ThemeProvider>
   );
 }
