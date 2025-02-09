@@ -26,12 +26,24 @@ async fn get_auth_token() -> String {
     .clone()
 }
 
-// ✅ **1. User Registration**
 #[tokio::test]
-async fn test_register_user() {
+async fn server_status_is_responsive() {
+    let response = api_request(
+        "GET",
+        "/",
+        None,
+        None
+    )
+    .await;
+
+    assert_eq!(response.status(), 200);
+}
+
+#[tokio::test]
+async fn auth_register_creates_user() {
     let response = api_request(
         "POST",
-        "/api/users",
+        "/api/register",
         None,
         Some(json!({
             "name": "John Doe",
@@ -44,9 +56,8 @@ async fn test_register_user() {
     assert_eq!(response.status(), 201);
 }
 
-// ✅ **2. User Login**
 #[tokio::test]
-async fn test_login() {
+async fn auth_login_returns_token() {
     let response = api_request(
         "POST",
         "/api/login",
@@ -64,9 +75,8 @@ async fn test_login() {
     assert!(body["token"].is_string());
 }
 
-// ✅ **3. Fetch User Profile**
 #[tokio::test]
-async fn test_get_user_profile() {
+async fn auth_profile_fetches_user() {
     let token = get_auth_token().await;
 
     let response = api_request("GET", "/api/users/1", Some(&token), None).await;
@@ -76,9 +86,8 @@ async fn test_get_user_profile() {
     assert_eq!(body["id"], 1);
 }
 
-// ✅ **4. Add Sleep Log**
 #[tokio::test]
-async fn test_add_sleep_log() {
+async fn sleeplog_add_saves_entry() {
     let token = get_auth_token().await;
 
     let response = api_request(
@@ -95,9 +104,8 @@ async fn test_add_sleep_log() {
     assert_eq!(response.status(), 201);
 }
 
-// ✅ **5. Get Sleep Logs**
 #[tokio::test]
-async fn test_get_sleep_logs() {
+async fn sleeplog_get_returns_logs() {
     let token = get_auth_token().await;
 
     let response = api_request("GET", "/api/sleep-logs", Some(&token), None).await;
@@ -107,18 +115,16 @@ async fn test_get_sleep_logs() {
     assert!(body["sleep_logs"].is_array());
 }
 
-// ✅ **6. Delete Sleep Log**
 #[tokio::test]
-async fn test_delete_sleep_log() {
+async fn sleeplog_delete_removes_entry() {
     let token = get_auth_token().await;
 
     let response = api_request("DELETE", "/api/sleep-logs/1", Some(&token), None).await;
     assert_eq!(response.status(), 200);
 }
 
-// ✅ **7. Add Energy Log**
 #[tokio::test]
-async fn test_add_energy_log() {
+async fn energylog_add_saves_entry() {
     let token = get_auth_token().await;
 
     let response = api_request(
@@ -135,27 +141,24 @@ async fn test_add_energy_log() {
     assert_eq!(response.status(), 201);
 }
 
-// ✅ **8. Get Energy Logs**
 #[tokio::test]
-async fn test_get_energy_logs() {
+async fn energylog_get_returns_logs() {
     let token = get_auth_token().await;
 
     let response = api_request("GET", "/api/energy-logs", Some(&token), None).await;
     assert_eq!(response.status(), 200);
 }
 
-// ✅ **9. Delete Energy Log**
 #[tokio::test]
-async fn test_delete_energy_log() {
+async fn energylog_delete_removes_entry() {
     let token = get_auth_token().await;
 
     let response = api_request("DELETE", "/api/energy-logs/1", Some(&token), None).await;
     assert_eq!(response.status(), 200);
 }
 
-// ✅ **10. Fetch Insights**
 #[tokio::test]
-async fn test_get_insights() {
+async fn insights_fetch_returns_data() {
     let token = get_auth_token().await;
 
     let response = api_request("GET", "/api/insights", Some(&token), None).await;
