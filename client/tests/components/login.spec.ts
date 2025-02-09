@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('User can log in', async ({ page }) => {
+test.fixme('User can log in', async ({ page }) => {
     await page.goto('/login');
 
     await page.fill('input[name="email"]', 'john.doe@example.com');

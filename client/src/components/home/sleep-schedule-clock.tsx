@@ -88,11 +88,11 @@ export function SleepScheduleClock() {
 
   return (
     <div className="relative">
-      <Card className="bg-background dark:bg-gray-900">
+      <Card className="bg-background">
         <CardContent className="p-6">
           <div className="relative aspect-square">
             {/* Circular progress background */}
-            <div className="absolute inset-0 rounded-full border-4 border-gray-100 dark:border-gray-800" />
+            <div className="absolute inset-0 rounded-full border-4 border-gray-100" />
 
             {/* Sleep duration display */}
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
