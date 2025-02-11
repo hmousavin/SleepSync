@@ -2,11 +2,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Home, Music, Book, BarChart, User } from "lucide-react";
 
 const navItems = [
-  { href: "/home", icon: Home, label: "Home" },
-  { href: "/sounds", icon: Music, label: "Sounds" },
-  { href: "/journal", icon: Book, label: "Journal" },
-  { href: "/report", icon: BarChart, label: "Report" },
-  { href: "/account", icon: User, label: "Account" },
+  { href: "/",        icon: Home,     label: "Home"    },
+  { href: "/sounds",  icon: Music,    label: "Sounds"  },
+  { href: "/journal", icon: Book,     label: "Journal" },
+  { href: "/report",  icon: BarChart, label: "Report"  },
+  { href: "/account", icon: User,     label: "Account" },
 ];
 
 export function BottomNav() {

@@ -25,7 +25,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/journal" element={<JournalPage/>} />
           <Route path="/report"  element={<ReportPage/>} />
           <Route path="/account" element={<AccountPage/>} />
-          <Route path="/sleep" element={<SleepPage/>} />
+          <Route path="/sleep"   element={<SleepPage/>} />
           
           <Route path="*"        element={<NotFound/>} />
         </Route>
