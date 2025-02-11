@@ -3,6 +3,7 @@ import { Card, CardContent } from "../ui/card"
 import { Button } from "../ui/button"
 import { Moon, Sun, ChevronRight } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
+import AlarmSounds from "./alarm-sounds"
 
 interface TimePickerProps {
   value: string
@@ -55,6 +56,8 @@ export function SleepScheduleClock() {
   const [bedtime, setBedtime] = useState("22:30")
   const [wakeTime, setWakeTime] = useState("06:00")
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
+  const [isRepeatOptionsOpen, setIsRepeatOptionsOpen] = useState(false)
+  const [isSelectAlarmSoundOpen, setIsSelectAlarmSoundOpen] = useState(false)
   const [activeTime, setActiveTime] = useState<"bedtime" | "wake">("bedtime")
 
   const calculateDuration = () => {
@@ -86,9 +89,17 @@ export function SleepScheduleClock() {
     }
   }
 
+  const handleChangeAlarmSound = () => {
+    setIsSelectAlarmSoundOpen(true)
+  }
+
+  const handleChangeRepeat = () => {
+    setIsRepeatOptionsOpen(true)
+  }
+
   return (
-    <div className="relative">
-      <Card className="bg-background">
+    <div className="relative h-auto">
+      <Card className="bg-red-100">
         <CardContent className="p-6">
           <div className="relative aspect-square">
             {/* Circular progress background */}
@@ -97,7 +108,7 @@ export function SleepScheduleClock() {
             {/* Sleep duration display */}
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
               <span className="text-3xl font-bold">{calculateDuration()}</span>
-              <span className="text-sm text-muted-foreground">sleep duration</span>
+              <span className="text-sm text-muted-htmlforeground">sleep duration</span>
             </div>
 
             {/* Time displays */}
@@ -128,28 +139,28 @@ export function SleepScheduleClock() {
           <div className="mt-6 space-y-4">
             <div className="flex items-center justify-between">
               <span>Alarm Sound</span>
-              <Button variant="ghost" className="flex items-center gap-2">
+              <Button variant="ghost" className="flex items-center gap-2" onClick={() => handleChangeAlarmSound()}>
                 Sunrise Serenade
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
             <div className="flex items-center justify-between">
               <span>Repeat</span>
-              <Button variant="ghost" className="flex items-center gap-2">
+              <Button variant="ghost" className="flex items-center gap-2" onClick={() => handleChangeRepeat()}>
                 Everyday
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           </div>
 
-          <Button className="w-full mt-6" size="lg">
+          <Button className="w-full mt-6 border-1 bg-blue-100" size="lg">
             Sleep Now
           </Button>
         </CardContent>
       </Card>
 
       <Dialog open={isTimePickerOpen} onOpenChange={setIsTimePickerOpen}>
-        <DialogContent>
+        <DialogContent className="bg-green-100">
           <DialogHeader>
             <DialogTitle>{activeTime === "bedtime" ? "Set Bedtime" : "Set Alarm"}</DialogTitle>
           </DialogHeader>
@@ -160,7 +171,49 @@ export function SleepScheduleClock() {
           />
         </DialogContent>
       </Dialog>
+
+      <Dialog open={isRepeatOptionsOpen} onOpenChange={setIsRepeatOptionsOpen}>
+        <DialogContent className="bg-green-100">
+          <DialogHeader>
+            <DialogTitle>Repeat</DialogTitle>
+          </DialogHeader>
+          <form action="" className="flex flex-col">
+              <input type="checkbox" value="Monday" id="mo"/>
+              <label htmlFor="mo">Monday</label>
+              
+              <input type="checkbox" value="Tuesday" id="tu"/>
+              <label htmlFor="tu">Tuesday</label>
+              
+              <input type="checkbox" value="Wednesday" id="we"/>
+              <label htmlFor="we">Wednesday</label>
+              
+              <input type="checkbox" value="Thursday" id="th"/>
+              <label htmlFor="th">Thursday</label>
+              
+              <input type="checkbox" value="Friday" id="fr"/>
+              <label htmlFor="fr">Friday</label>
+              
+              <input type="checkbox" value="Saturday" id="sa"/>
+              <label htmlFor="sa">Saturday</label>
+              
+              <input type="checkbox" value="Sunday" id="su"/>
+              <label htmlFor="su">Sunday</label>
+          </form>
+          <div>
+          <button className="w-52 mr-5 border">Cancel</button>
+          <button className="w-52 mr-5 border">Save</button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isSelectAlarmSoundOpen} onOpenChange={setIsSelectAlarmSoundOpen}>
+        <DialogContent className="bg-green-100">
+          <DialogHeader>
+            <DialogTitle>Select Alarm Sound</DialogTitle>
+          </DialogHeader>
+          <AlarmSounds/>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
-
