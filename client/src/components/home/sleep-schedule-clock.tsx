@@ -4,6 +4,7 @@ import { Button } from "../ui/button"
 import { Moon, Sun, ChevronRight } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
 import AlarmSounds from "./alarm-sounds"
+import { useNavigate } from "react-router-dom"
 
 interface TimePickerProps {
   value: string
@@ -53,6 +54,7 @@ function TimePicker({ value, onChange, title }: TimePickerProps) {
 }
 
 export function SleepScheduleClock() {
+  const navigate = useNavigate();
   const [bedtime, setBedtime] = useState("22:30")
   const [wakeTime, setWakeTime] = useState("06:00")
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
@@ -153,8 +155,9 @@ export function SleepScheduleClock() {
             </div>
           </div>
 
-          <Button className="w-full mt-6 border-1 bg-blue-100" size="lg">
+          <Button className="w-full mt-6 border-1 bg-blue-100" size="lg" onClick={() => navigate("/sleep")}>
             Sleep Now
+            <a href="/sleep"/>
           </Button>
         </CardContent>
       </Card>
