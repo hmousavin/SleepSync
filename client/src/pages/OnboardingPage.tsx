@@ -55,7 +55,7 @@ export default function OnboardingPage() {
                 </Button>
 
                 {/* Footer Links */}
-                <div className="mt-auto pt-6 flex gap-4 text-sm text-muted-foreground">
+                <div className="pt-6 flex gap-4 text-sm text-muted-foreground">
                     <a href="#" className="hover:text-foreground">
                         Privacy Policy
                     </a>
@@ -64,6 +64,6 @@ export default function OnboardingPage() {
                     </a>
                 </div>
             </main>
-            </div>        
+        </div>        
     )
 }
