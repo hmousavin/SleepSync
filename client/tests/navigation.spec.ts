@@ -1,35 +1,29 @@
 import { test, expect } from "@playwright/test";
 
-const URL = "localhost";
-const PORT = "5173";
-
-const localEndpoint = `http://${URL}:${PORT}`;
-
 test.describe("SleepSync Navigation Tests", () => {
-    
     test("navigates to onboarding if an active not found", async ({ page }) => {
-        await page.goto(localEndpoint);
+        await page.goto("/");
 
         await expect(page).toHaveURL("/onboarding")
         await expect(page.locator("h1")).toHaveText("Let's Get Started!");
     });
     
     test("navigates to home if an active login found", async ({ page }) => {
-        await page.goto(localEndpoint);
+        await page.goto("/");
 
         await expect(page).toHaveURL("/")
         await expect(page.locator("h1")).toHaveText("Welcome back, User");
     });
 
     test("navigates to to sign-up by selecting that", async ({ page }) => {
-        await page.goto(`${localEndpoint}/sign-up`);
+        await page.goto(`/sign-up`);
 
         await expect(page).toHaveURL("/sign-up")
         await expect(page.locator("h1")).toHaveText("Create an account");
     });
 
     test("navigates to to sign-in by selecting that", async ({ page }) => {
-        await page.goto(`${localEndpoint}/sign-in`);
+        await page.goto(`/sign-in`);
 
         await expect(page).toHaveURL("/sign-in")
         await expect(page.locator("h1")).toHaveText("Welcome back");
