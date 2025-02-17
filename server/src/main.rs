@@ -1,9 +1,10 @@
+use actix_cors::Cors;
 use actix_web::{delete, get, post, web, App, HttpResponse, HttpServer, Responder};
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
 struct RegisterRequest {
-    name: String,
+    full_name: String,
     email: String,
     password: String,
 }
@@ -33,12 +34,12 @@ async fn echo(req_body: String) -> impl Responder {
 async fn register_user(data: web::Json<RegisterRequest>) -> impl Responder {
     println!(
         "User Registered: name={}, email={}, password={}",
-        data.name, data.email, data.password
+        data.full_name, data.email, data.password
     );
-    // HttpResponse::Created().json(serde_json::json!({
-    //     "message": "User registered successfully"
-    // }))
-    HttpResponse::NotImplemented()
+    HttpResponse::Created().json(serde_json::json!({
+        "message": "User registered successfully"
+    }))
+    // HttpResponse::NotImplemented()
 }
 
 #[post("/api/login")]
@@ -133,6 +134,13 @@ async fn main() -> std::io::Result<()> {
             .service(fetch_energy_logs)
             .service(test_delete_energy_logs)
             .service(fetch_insights)
+            .wrap(
+                Cors::default()
+                    .allow_any_origin()
+                    .allowed_methods(vec!["GET", "POST", "DELETE", "PUT", "PATCH"])
+                    .allowed_headers(vec!["Content-Type", "Authorization"])
+                    .supports_credentials()
+            )
     })
     .bind(("127.0.0.1", 8080))?
     .run()
