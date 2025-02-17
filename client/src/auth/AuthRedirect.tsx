@@ -6,11 +6,10 @@ export default function AuthenticatePage() {
     const location = useLocation();
     const navigate = useNavigate();
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-    
     useEffect(() => {
         const publicRoutes = ["/sign-up", "/sign-in", "/onboarding"];
         if (isAuthenticated)
-            navigate("/");
+            navigate(location.pathname);
         else if (!publicRoutes.includes(location.pathname))
             navigate("/onboarding");
     }, [isAuthenticated, navigate]);
