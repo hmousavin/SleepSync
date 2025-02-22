@@ -4,15 +4,15 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Icons } from "../icons"
 import { useToast } from "../ui/use-toast"
-import * as auth from "../../services/auth"
 import { useNavigate } from "react-router-dom"
 import useAuthStore from "../../store/AuthStore";
+import * as auth from "../../services/auth"
 
 export function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    fullName: "",
+    fullname: "",
     email: "",
     password: "",
   })
@@ -34,7 +34,7 @@ export function SignUpForm() {
         title: "Success!",
         description: response.message,
       })
-      // navigate("/")
+      navigate("/")
     } catch (error) {
       toast({
         title: "Error!",
@@ -49,7 +49,7 @@ export function SignUpForm() {
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="name">Full Name</Label>
-        <Input id="name" placeholder="John Doe" type="text" disabled={isLoading} required onChange={handleChange}/>
+        <Input id="fullname" placeholder="John Doe" type="text" disabled={isLoading} required onChange={handleChange}/>
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
