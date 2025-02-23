@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
 
+test.beforeEach(async ({ context }) => {
+    await context.addInitScript(() => {
+        sessionStorage.clear();
+    });
+});
+
 test.describe("SleepSync Navigation Tests", () => {
     test("navigates to onboarding if an active not found", async ({ page }) => {
         await page.goto("/");
@@ -9,6 +15,10 @@ test.describe("SleepSync Navigation Tests", () => {
     });
     
     test("navigates to home if an active login found", async ({ page }) => {
+        await page.context().addInitScript(() => {
+            sessionStorage.setItem("authToken", "mocked_token");
+        });
+        
         await page.goto("/");
 
         await expect(page).toHaveURL("/")
