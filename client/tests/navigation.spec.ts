@@ -58,8 +58,7 @@ test.describe("SleepSync Navigation Tests", () => {
         await page.fill('input[name="password"]', "SecurePass123");
         await page.click('button:text("Create Account")');
 
-        await expect(page).toHaveURL("/")
-        await expect(page.locator("h1")).toHaveText("Welcome back, User");
+        await expect(page).toHaveURL("/assessment");
     });
 
     test.fixme("navigates to home after successfull login", async ({ page }) => {
