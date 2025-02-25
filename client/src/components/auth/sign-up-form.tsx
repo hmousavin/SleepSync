@@ -48,13 +48,14 @@ export function SignUpForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Full Name</Label>
-        <Input id="fullname" placeholder="John Doe" type="text" disabled={isLoading} required onChange={handleChange}/>
+        <Label htmlFor="fullname">Full Name</Label>
+        <Input id="fullname" name="fullname" placeholder="John Doe" type="text" disabled={isLoading} required onChange={handleChange}/>
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
+          name="email"
           placeholder="m@example.com"
           type="email"
           autoCapitalize="none"
@@ -67,7 +68,7 @@ export function SignUpForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" disabled={isLoading} required onChange={handleChange}/>
+        <Input id="password" name="password" type="password" disabled={isLoading} required onChange={handleChange}/>
       </div>
       <Button className="w-full" type="submit" disabled={isLoading}>
         {isLoading && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}

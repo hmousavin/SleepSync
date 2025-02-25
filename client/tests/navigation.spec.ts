@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import * as auth from "../src/services/auth"; // Import the actual module
 
 test.beforeEach(async ({ context }) => {
     await context.addInitScript(() => {
@@ -39,7 +40,26 @@ test.describe("SleepSync Navigation Tests", () => {
         await expect(page.locator("h1")).toHaveText("Welcome back");
     });
 
-    test.fixme("navigates to check-up after sign-up", async ({ page }) => {
+    test("navigates to check-up after sign-up", async ({ page }) => {
+        await page.context().addInitScript(() => {
+            sessionStorage.setItem("authToken", "mocked_token");
+        });
+        await page.route('**/api/register', async route => {
+            const jsonResponse = { success: true };
+            route.fulfill({
+              status: 200,
+              body: JSON.stringify(jsonResponse),
+            });
+        });
+
+        await page.goto(`/sign-up`);
+        await page.fill('input[name="fullname"]', "John Doe");
+        await page.fill('input[name="email"]', "johndoe@example.com");
+        await page.fill('input[name="password"]', "SecurePass123");
+        await page.click('button:text("Create Account")');
+
+        await expect(page).toHaveURL("/")
+        await expect(page.locator("h1")).toHaveText("Welcome back, User");
     });
 
     test.fixme("navigates to home after successfull login", async ({ page }) => {
