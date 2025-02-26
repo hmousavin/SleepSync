@@ -9,6 +9,7 @@ interface QuestionSlideProps {
   onAnswer: (value: string) => void
   onBack: () => void
   onContinue: () => void
+  isEnable?: boolean
   isLast?: boolean
 }
 
@@ -19,6 +20,7 @@ export default function QuestionSlide({
   onAnswer,
   onBack,
   onContinue,
+  isEnable = false,
   isLast = false,
 }: QuestionSlideProps) {
   return (
@@ -59,6 +61,7 @@ export default function QuestionSlide({
 
       <button
         onClick={onContinue}
+        disabled={!isEnable}
         className="w-full py-3 px-4 mt-6 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
       >
         {isLast ? "Finish" : "Continue"}

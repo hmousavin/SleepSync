@@ -2,6 +2,7 @@ import { useState } from "react"
 
 import QuestionSlide from "./question-slide"
 import type { Question, AssessmentState } from "../../types"
+import { useNavigate } from "react-router-dom"
 
 const QUESTIONS: Question[] = [
   {
@@ -111,10 +112,13 @@ export default function SleepAssessment() {
     currentQuestion: 1,
     answers: {},
   })
+  const [isEnable, setIsEnable] = useState(false)
+  const navigate = useNavigate();
 
   const currentQuestion = QUESTIONS.find((q) => q.id === state.currentQuestion)
 
   const handleAnswer = (value: string) => {
+    setIsEnable(true)
     setState((prev) => ({
       ...prev,
       answers: { ...prev.answers, [state.currentQuestion]: value },
@@ -128,6 +132,7 @@ export default function SleepAssessment() {
         currentQuestion: prev.currentQuestion - 1,
       }))
     }
+    setIsEnable(!!state.answers[state.currentQuestion - 1])
   }
 
   const handleContinue = () => {
@@ -136,9 +141,10 @@ export default function SleepAssessment() {
         ...prev,
         currentQuestion: prev.currentQuestion + 1,
       }))
+      setIsEnable(false)
     } else {
-      // Handle assessment completion
       console.log("Assessment completed:", state.answers)
+      navigate("/")
     }
   }
 
@@ -153,6 +159,7 @@ export default function SleepAssessment() {
           onAnswer={handleAnswer}
           onBack={handleBack}
           onContinue={handleContinue}
+          isEnable={isEnable}
           isLast={state.currentQuestion === QUESTIONS.length}
         />
     </div>
