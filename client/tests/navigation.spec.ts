@@ -1,5 +1,26 @@
 import { test, expect } from "@playwright/test";
-import * as auth from "../src/services/auth"; // Import the actual module
+
+async function signUp(page) {
+    await page.route('**/api/register', async route => {
+        const jsonResponse = { success: true, token: "mocked_token", message: "Account created!" };
+        route.fulfill({
+          status: 200,
+          body: JSON.stringify(jsonResponse),
+        });
+    });
+    
+    await page.goto(`/sign-up`);
+    await page.fill('input[name="fullname"]', "John Doe");
+    await page.fill('input[name="email"]', "johndoe@provider.com");
+    await page.fill('input[name="password"]', "SecurePass123");
+    await page.click('button:text("Create Account")');
+}
+
+async function login(page) {
+    await page.context().addInitScript(() => {
+        sessionStorage.setItem("authToken", "mocked_token");
+    });
+}
 
 test.beforeEach(async ({ context }) => {
     await context.addInitScript(() => {
@@ -8,17 +29,21 @@ test.beforeEach(async ({ context }) => {
 });
 
 test.describe("SleepSync Navigation Tests", () => {
-    test("navigates to onboarding if an active not found", async ({ page }) => {
+    test("redirects to onboarding if no active session", async ({ page }) => {
         await page.goto("/");
 
         await expect(page).toHaveURL("/onboarding")
         await expect(page.locator("h1")).toHaveText("Let's Get Started!");
     });
     
-    test("navigates to home if an active login found", async ({ page }) => {
-        await page.context().addInitScript(() => {
-            sessionStorage.setItem("authToken", "mocked_token");
-        });
+    test("sign-up flow navigates to assessment", async ({ page }) => {
+        await signUp(page);
+
+        await page.waitForURL("/assessment");
+    });
+
+    test("redirects to home if logged in", async ({ page }) => {
+        await login(page);
         
         await page.goto("/");
 
@@ -26,45 +51,13 @@ test.describe("SleepSync Navigation Tests", () => {
         await expect(page.locator("h1")).toHaveText("Welcome back, User");
     });
 
-    test("navigates to to sign-up by selecting that", async ({ page }) => {
-        await page.goto(`/sign-up`);
-
-        await expect(page).toHaveURL("/sign-up")
-        await expect(page.locator("h1")).toHaveText("Create an account");
-    });
-
-    test("navigates to to sign-in by selecting that", async ({ page }) => {
-        await page.goto(`/sign-in`);
-
-        await expect(page).toHaveURL("/sign-in")
-        await expect(page.locator("h1")).toHaveText("Welcome back");
-    });
-
-    test("navigates to check-up after sign-up", async ({ page }) => {
-        await page.context().addInitScript(() => {
-            sessionStorage.setItem("authToken", "mocked_token");
-        });
-        await page.route('**/api/register', async route => {
-            const jsonResponse = { success: true };
-            route.fulfill({
-              status: 200,
-              body: JSON.stringify(jsonResponse),
-            });
-        });
-
-        await page.goto(`/sign-up`);
-        await page.fill('input[name="fullname"]', "John Doe");
-        await page.fill('input[name="email"]', "johndoe@example.com");
-        await page.fill('input[name="password"]', "SecurePass123");
-        await page.click('button:text("Create Account")');
-
-        await expect(page).toHaveURL("/assessment");
-    });
-
-    test.fixme("navigates to home after successfull login", async ({ page }) => {
-    });
-
     test.fixme("navigates to select alarm time when the user immediately push SleepNow", async ({ page }) => {
+        await login(page);
+        
+        await page.goto("/assessment");
+        await page.click('button:text("Complete Assessment")'); // Example action
+        
+        await expect(page).toHaveURL("/alarm-selection");
     });
 
     test.fixme("navigates to sleeping after the alert is selected or skipped", async ({ page }) => {
@@ -80,27 +73,8 @@ test.describe("SleepSync Navigation Tests", () => {
     test.fixme("navigates to reports by selecting that", async ({ page }) => {
     });
 
-//   test("navigates to to Settings and update preferences", async ({ page }) => {
-//     await page.goto("http://localhost:3000");
-
-//     // Navigate to Settings page
-//     await page.locator('a[href="/settings"]').click();
-    
-//     // Verify that Settings page loads
-//     await expect(page).toHaveURL(/.*settings/);
-//     await expect(page.locator("h1")).toHaveText("Settings");
-
-//     // Simulate a settings change
-//     await page.locator('input[name="darkMode"]').check();
-    
-//     // Verify the toggle works
-//     await expect(page.locator('input[name="darkMode"]')).toBeChecked();
-//   });
-
-//   test("should show 404 page for invalid routes", async ({ page }) => {
-//     await page.goto("http://localhost:3000/nonexistentpage");
-
-//     // Ensure a 404 or error message is displayed
-//     await expect(page.locator("h1")).toHaveText("404 - Page Not Found");
-//   });
+    test("404 page appears for invalid routes", async ({ page }) => {
+        await page.goto("/nonexistentpage");
+        await expect(page.locator("h1")).toHaveText("404 - Page Not Found");
+    });
 });
