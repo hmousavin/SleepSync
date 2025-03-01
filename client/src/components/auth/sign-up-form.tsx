@@ -29,12 +29,14 @@ export function SignUpForm() {
 
     try {
       const response = await auth.register(form)
+
       login(response.token)
+
       toast({
         title: "Success!",
         description: response.message,
       })
-      navigate("/")
+      navigate("/assessment")
     } catch (error) {
       toast({
         title: "Error!",
