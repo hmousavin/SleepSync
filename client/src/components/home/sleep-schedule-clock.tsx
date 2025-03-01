@@ -203,8 +203,8 @@ export function SleepScheduleClock() {
               <label htmlFor="su">Sunday</label>
           </form>
           <div>
-          <button className="w-52 mr-5 border">Cancel</button>
-          <button className="w-52 mr-5 border">Save</button>
+          <Button className="w-52 mr-5 border">Cancel</Button>
+          <Button className="w-52 mr-5 border">Save</Button>
           </div>
         </DialogContent>
       </Dialog>
